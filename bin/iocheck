@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+
+__description__ = "Watch I/O on a disk and log results"
+__author__ = "Choops <choopsbd@gmail.com>"
+
+import sys
+import re
+import os
+import subprocess
+import datetime
+import time
+
+
+def usage():
+    myscript = f"{os.path.basename(__file__)}"
+    print(f"{ci}{__description__}\nUsage{c0}:")
+    print(f"  {myscript} [OPTION] <DEVICE>")
+    print(f"{ci}Options{c0}:")
+    print(f"  -h,--help:             Print this help")
+    print(f"  -d,--delay [DELAY=10]: Delay in seconds between measures")
+    print()
+
+
+def is_sudoer():
+    sudoer = False
+    if os.getuid() != 0:
+        listgrp_cmd = ['groups']
+        issudo_cmd = ['grep', 'sudo']
+        listgrp = subprocess.Popen(listgrp_cmd, stdout=subprocess.PIPE)
+        try:
+            subprocess.check_output(issudo_cmd, stdin=listgrp.stdout)
+            sudoer = True
+        except subprocess.CalledProcessError:
+            print(f"{error} Cannot install requisite package(s).", end=" ")
+            print("Need higher privileges.")
+            exit(1)
+
+    return sudoer
+
+
+def prerequisites():
+    reqpkgs = ["sysstat"]
+    missingpkg = False
+    for pkg in reqpkgs:
+        pkglist_cmd = ["dpkg", "-l"]
+        filter_cmd = ["grep", pkg]
+        pkglist = subprocess.Popen(pkglist_cmd, stdout=subprocess.PIPE)
+        try:
+            subprocess.check_output(filter_cmd, stdin=pkglist.stdout,
+                                    universal_newlines=True).rstrip("\n")
+        except subprocess.CalledProcessError:
+            missingpkg = True
+
+    if missingpkg:
+        if is_sudoer():
+            install = "sudo apt-get install"
+        else:
+            install = "apt-get install"
+        print(f"{ci}Installing required packages...{c0}")
+        inst_cmd = f"{install} -yy {' '.join(reqpkgs)}"
+        os.system(inst_cmd)
+
+
+def test_delay(delay):
+    try:
+        int(delay)
+    except ValueError:
+        print(f"{error} Delay must be an integer")
+        exit(1)
+
+    return delay
+
+
+def test_device(device):
+    mydev = f"/dev/{device}"
+    if not os.path.exists(mydev):
+        print(f"{error} No device '{device}' available\n")
+        exit(1)
+
+    with open("/proc/mounts", "r") as f:
+        if mydev not in f.read():
+            print(f"{error} '{device}' is not mounted\n")
+            exit(1)
+
+    return True
+
+
+def log_io(device, logfile):
+    timestamp = datetime.datetime.today().strftime("%d/%m/%y - %H:%M:%S")
+    read_cmd = f"iostat /dev/{device} | awk '/^{device}/"+" {print $3}'"
+    read_kbs = os.popen(read_cmd).read().strip()
+    write_cmd = f"iostat /dev/{device} | awk '/^{device}/"+" {print $4}'"
+    write_kbs = os.popen(write_cmd).read().strip()
+
+    with open(logfile, "a") as f:
+        f.write(f"{timestamp}\t{read_kbs}\t\t{write_kbs}\n")
+
+
+def show_log(logfile):
+    showlog = input(f"\nSee {logfile} now [Y/n] ? ")
+    if not re.match('^(n|no)$', showlog.lower()):
+        print(f"{ci}{logfile}{c0}:")
+        with open(logfile, "r") as f:
+            print(f.read())
+
+        
+def check_io(device, delay):
+    logfile = "/tmp/io_report.log"
+
+    if os.path.isfile(logfile):
+        print(f"{warning} A log file already exits")
+        keepold = input("Append it [Y/n] ? ")
+        if re.match('^(n|no)', keepold.lower()):
+            os.remove(logfile)
+
+    if os.path.exists(logfile):
+        append_write = "a"
+    else:
+        append_write = "w"
+
+    print(f"{ci} Logging I/O spead on '{device}'...{c0}")
+    with open(logfile, append_write) as f:
+        f.write(f"\n# Log for I/O on '{device}' with {delay}s delay\n")
+        f.write(f"Date\t\t\tRead (kb/s)\tWrite (kb/s)\n")
+    
+    print(f"Press [Ctrl]+[C] to stop")
+    try:
+        while True:
+            log_io(device, logfile)
+            time.sleep(int(delay))
+
+    except KeyboardInterrupt:
+        show_log(logfile)
+
+
+c0 = "\33[0m"
+ce = "\33[31m"
+cok = "\33[32m"
+cw = "\33[33m"
+ci = "\33[36m"
+
+error = f"{ce}E{c0}:"
+done = f"{cok}OK{c0}:"
+warning = f"{cw}W{c0}:"
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(f"{error} Argument required")
+        usage()
+        exit(1)
+
+    i = 1
+    positionals = []
+    delay = 10
+    while i < len(sys.argv):
+        if re.match('^-(h|-help)', sys.argv[i]):
+            usage()
+            exit(0)
+        elif re.match('^-(d|-delay)', sys.argv[i]):
+            delay = test_delay(sys.argv[i+1])
+            i += 1
+        elif re.match('^-', sys.argv[i]):
+            print(f"{error} Unknow option '{sys.argv[i]}'")
+            usage()
+            exit(1)
+        else:
+            positionals.append(sys.argv[i])
+        i += 1
+
+    if len(positionals) > 1:
+        print(f"{error} Too many arguments")
+        usage()
+        exit(1)
+
+    if test_device(positionals[0]):
+        prerequisites()
+        check_io(positionals[0], delay)

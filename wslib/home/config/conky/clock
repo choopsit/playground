@@ -1,0 +1,37 @@
+conky.config = {
+----- Window
+    own_window = true,
+    own_window_transparent = true,
+    own_window_type = desktop,
+    own_window_argb_visual = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    double_buffer = true,
+    background = false,
+----- Position
+    alignement = bl,
+    minimum_height = 240,
+    minimum_width = 240,
+    maximum_width = 460,
+    gap_x = 2960,
+    gap_y = 520,
+----- Font
+    draw_shades = false,
+    draw_outline = false,
+    draw_borders = false,
+    use_spacer = none,
+    use_xft = true,
+    xftalpha = 0.8,
+    override_utf8_locale = yes,
+    font = 'Noto Sans:size=20',
+----- Other
+    update_interval = 1,
+    total_run_times = 0,
+    default_color = '#d8d8d8',
+    color1 = '#2d508e'
+}
+
+conky.text = [[
+${color1}${font Noto Sans:size=20}  ${time %A}${font}${color}
+${font Noto Sans:bold:size=26}${time %B %e}, ${color1}${time %Y}${color}${font}
+${voffset -36}${font Noto Sans:bold:size=120}${color1}${time %H}${color}${voffset -40}${font Noto Sans:size=76}${time %M}${font}
+]]

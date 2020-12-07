@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+
+import os
+import mylib
+
+__description__ = "Workstation installation management module"
+__author__ = "Choops <choopsbd@gmail.com>"
+
+
+def awesome(basepkgs):
+    """Append packagelists for AwesomeWM"""
+
+    awesomepkgs = ["xorg", "mesa-utils", "awesome", "awesome-extra", "rofi",
+                   "lightdm", "slick-greeter", "lxappearance", "nitrogen",
+                   "compton"]
+    appspkgs = ["terminator", "gimp", "imagemagick", "mpv"]
+    stylepkgs = ["arc-theme", "papirus-icon-theme"]
+
+    pkgs = basepkgs + awesomepkgs + appspkgs
+
+    return pkgs
+
+
+def xfce(basepkgs):
+    """Append packagelists for XFCE"""
+
+    xfcepkgs = ["task-xfce-desktop", "task-desktop", "slick-greeter",
+                "gvfs-backends", "synaptic", "xfce4-appfinder",
+                "xfce4-appmenu-plugin", "xfce4-clipman-plugin",
+                "xfce4-power-manager", "xfce4-pulseaudio-plugin",
+                "xfce4-weather-plugin", "xfce4-whiskermenu-plugin",
+                "xfce4-xkb-plugin", "xfce4-screenshooter",
+                "catfish", "plank", "evince"]
+    syspkgs = ["cups", "printer-driver-escpr", "system-config-printer",
+               "network-manager-gnome", "gparted"]
+    appspkgs = ["terminator", "redshift-gtk", "gnome-system-monitor",
+                "file-roller", "gnome-calculator", "simple-scan", "remmina",
+                "blender", "gimp", "gthumb", "gedit", "gedit-plugins"]
+    stylepkgs = ["arc-theme", "papirus-icon-theme", "libreoffice-gtk3",
+                 "libreoffice-style-sifr"]
+
+    pkgs = basepkgs + xfcepkgs + syspkgs + appspkgs + stylepkgs
+
+    uselesspkgs = ["needrestart", "xfce4-taskmanager", "xfce4-terminal",
+                   "xarchiver", "xfburn", "xsane", "atril", "exfalso",
+                   "quodlibet", "hv3", "parole", "ristretto", "mousepad",
+                   "xterm", "libreoffice-base"]
+
+    return pkgs, uselesspkgs
+
+
+def de(de, codename, hostname):
+    """Install Dexktop Environment"""
+
+    mylib.pkg.upgrade()
+
+    if codename == "sid":
+        firefox = ["firefox"]
+        compositor = ["picom"]
+    else:
+        firefox = ["firefox-esr"]
+        compositor = ["compton"]
+    if codename == "buster":
+        mediaplayers = ["gnome-mpv", "rhythmbox",
+                        "rhythmbox-plugin-alternative-toolbar"]
+    else:
+        mediaplayers = ["celluloid", "lollypop", "kid3-cli"]
+
+    syspkgs = ["firmware-linux", "build-essential", "nfs-common", "deborphan",
+               "sudo", "vim", "curl", "git", "ssh", "tree", "htop", "rsync",
+               "p7zip-full", "unrar", "imagemagick"]
+
+    nvidiadrv = []
+    if os.system("lspci | grep -qi nvidia") == 0:
+        os.system("dpkg --add-architecture i386")
+        nvidiadrv = ["nvidia-driver", "nvidia-settings", "nvidia-xconfig"]
+
+    stdpkgs = syspkgs + nvidiadrv + firefox
+
+    pkgs = []
+    uselesspkgs = []
+    if de == "xfce":
+        stdpkgs += mediaplayers
+        pkgs, uselesspkgs = xfce(stdpkgs)
+    elif de == "awesomewm":
+        stdpkgs += compositor
+        pkgs = awesome(stdpkgs)
+
+    mylib.pkg.install(pkgs)
+
+    if uselesspkgs != []:
+        mylib.pkg.remove(uselesspkgs)
+
+    mylib.pkg.clean()
+
+
+def themes(srcfolder):
+    """Install managed htemes from git by 'bin/themesupdate'"""
+
+    install_themes = f"{srcfolder}/bin/themesupdate"
+    os.system(install_themes)

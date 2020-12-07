@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+description="Start stuff with a delay"
+author="Choops <choopsbd@gmail.com>"
+
+if [[ -f "${HOME}/.config/conky/clock" ]]; then
+    sleep 5
+    conky -c "${HOME}/.config/conky/clock" &
+fi
+
+if [[ -f "${HOME}/.config/picom/picom.conf" ]]; then
+    sleep 5
+    picom --config "${HOME}/.config/picom/picom.conf" &
+fi
+
+vboxstock="${HOME}/Work/vbox"
+vboxgrouplist=("HouseOfZeMinous")
+for vboxgrp in "${vboxgrouplist[@]}"; do
+    sleep 10
+    if [[ -d "${vboxstock}/${vboxgrp}" ]]; then
+        vbox start "${vboxgrp}"
+    fi
+done
+
+exit 0

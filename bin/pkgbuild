@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+
+__description__ = "Build a debian package"
+__author__ = "Choops <choopsbd@gmail.com>"
+
+import sys
+import re
+import os
+import pathlib
+import shutil
+
+
+def usage():
+    myscript = f"{os.path.basename(__file__)}"
+    print(f"{ci}{__description__}\nUsage{c0}:")
+    print(f"  '{myscript} [OPTION] <BUILDFOLDER>' as root or using 'sudo'")
+    print(f"{ci}Options{c0}:")
+    print(f"  -h,--help: Print this help")
+    print()
+
+
+def prerequisites():
+    if os.getuid() != 0:
+        print(f"{error} Need higher privileges")
+        exit(1)
+
+
+def test_pkgsource(folder):
+    if folder.endswith("/"):
+        folder = folder[:-1]
+
+    if not os.path.isfile(f"{folder}/DEBIAN/control"):
+        print(f"{error} Invalid debian package source folder '{folder}'")
+        exit(1)
+
+    return folder
+
+
+def recursive_change_owner_group(path, newowner, newgroup):
+    shutil.chown(path, newowner, newgroup)
+    for root, dirs, files in os.walk(path):
+        for mydir in dirs:
+            shutil.chown(os.path.join(root, mydir), newowner, newgroup)
+        for myfile in files:
+            shutil.chown(os.path.join(root, myfile), newowner, newgroup)
+
+
+def build_deb_package(folder):
+    myuser = pathlib.Path(folder).owner()
+    mygroup = pathlib.Path(folder).group()
+
+    recursive_change_owner_group(folder, 'root', 'root')
+
+    os.system(f"dpkg-deb --build {folder}")
+
+    for target in [folder, f"{folder}.deb"]:
+        recursive_change_owner_group(target, myuser, mygroup)
+
+    destfolder = os.path.abspath(pathlib.Path(folder).parent)
+    pkgname = os.path.basename(folder)
+    print(f"{done} '{pkgname}.deb' generated in '{destfolder}'")
+
+
+c0 = "\33[0m"
+ce = "\33[31m"
+cok = "\33[32m"
+ci = "\33[36m"
+
+error = f"{ce}E{c0}:"
+done = f"{cok}OK{c0}:"
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(f"{error} Argument required")
+        usage()
+        exit(1)
+
+    i = 1
+    positionals = []
+    while i < len(sys.argv):
+        if re.match('^-(h|-help)', sys.argv[i]):
+            usage()
+            exit(0)
+        elif re.match('^-', sys.argv[i]):
+            print(f"{error} Unknow option '{sys.argv[i]}'")
+            usage()
+            exit(1)
+        else:
+            positionals.append(sys.argv[i])
+        i += 1
+
+    if len(positionals) > 1:
+        print(f"{error} Too many arguments")
+        usage()
+        exit(1)
+
+    prerequisites()
+
+    buildfolder = test_pkgsource(positionals[0])
+    build_deb_package(buildfolder)
