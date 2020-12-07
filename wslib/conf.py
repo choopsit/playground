@@ -8,9 +8,43 @@ import mylib
 __description__ = "Workstation configuration management module"
 __author__ = "Choops <choopsbd@gmail.com>"
 
+c0 = "\33[0m"
+ce = "\33[31m"
+cok = "\33[32m"
+cw = "\33[33m"
+ci = "\33[36m"
 
-def awesome(home):
+error = f"{ce}E{c0}:"
+done = f"{cok}OK{c0}:"
+warning = f"{cw}W{c0}:"
+
+
+def deploy_dotconfig(home, confcontent, srcfolder):
+    for conf in confcontent:
+        src = f"{srcfolder}/home/config/{conf}"
+        tgt = f"{home}/.config/{conf}"
+        if os.path.isdir(tgt):
+            if home == "/etc/skel":
+                mylib.file.overwrite(src, tgt)
+            else:
+                print(f"{warning} '{tgt}' already exists")
+                resetconf = mylib.com.yesno("Overwrite it", "y")
+                if not re.match('^(n|no)', resetconf.lower()):
+                    mylib.file.overwrite(src, tgt)
+        else:
+            shutil.copytree(src, tgt, symlinks=True)
+
+
+def deploy_dotlocal(home, srcfolder):
+    for loc in os.listdir(f"{srcfolder}/home/local"):
+        mylib.file.overwrite(f"{srcfolder}/home/local/{loc}",
+                             f"{home}/.local/{loc}")
+
+
+def awesomewm(home):
     """Deploy AwesomeWM configuration"""
+
+    srcfolder = os.path.dirname(os.path.realpath(__file__))
 
     awesomesrc = "/etc/xdg/awesome/rc.lua"
     cfgfolder = f"{home}/.config/awesome"
@@ -26,6 +60,9 @@ def awesome(home):
                 tgt.write("something configured\n")
             else:
                 tgt.write(line)
+    
+    confcontent = ["terminator"]
+    deploy_dotconfig(home, confcontent, srcfolder)
 
 
 def xfce(home):
@@ -36,26 +73,11 @@ def xfce(home):
     if not os.path.isdir(f"{home}/.config"):
         os.makedirs(f"{home}/.config")
 
-    confcontent = ["autostart", "conky", "dconf", "gedit", "GIMP", "plank",
+    confcontent = ["autostart", "conky", "dconf", "gedit", "plank",
                    "terminator", "Thunar", "xfce4"]
+    deploy_dotconfig(home, confcontent, srcfolder)
 
-    for conf in confcontent:
-            src = f"{srcfolder}/home/config/{conf}"
-            tgt = f"{home}/.config/{conf}"
-            if os.path.isdir(tgt):
-                if home == "/etc/skel":
-                    mylib.file.overwrite(src, tgt)
-                else:
-                    print(f"{warning} '{tgt}' already exists")
-                    resetconf = mylib.com.yesno("Overwrite it", "y")
-                    if not re.match('^(n|no)', resetconf.lower()):
-                        mylib.file.overwrite(src, tgt)
-            else:
-                shutil.copytree(src, tgt, symlinks=True)
-
-    for loc in os.listdir(f"{srcfolder}/home/local"):
-        mylib.file.overwrite(f"{srcfolder}/home/local/{loc}",
-                             f"{home}/.local/{loc}")
+    deploy_dotlocal(home, srcfolder)
 
 
 def user(de, home, user, grp):
@@ -63,10 +85,12 @@ def user(de, home, user, grp):
 
     mylib.conf.bash(home)
     mylib.conf.vim(home)
+
     if de == "xfce":
         xfce(home)
-    elif de == "awesome":
-        awesome(home)
+    elif de == "awesomewm":
+        awesomewm(home)
+
     mylib.file.rchown(home, user, grp)
 
 

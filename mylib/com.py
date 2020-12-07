@@ -4,9 +4,19 @@ import os
 import re
 import socket
 
-
 __description__ = "Common functions module"
 __author__ = "Choops <choopsbd@gmail.com>"
+
+c0 = "\33[0m"
+ce = "\33[31m"
+cok = "\33[32m"
+cw = "\33[33m"
+ci = "\33[36m"
+
+error = f"{ce}E{c0}:"
+done = f"{cok}OK{c0}:"
+warning = f"{cw}W{c0}:"
+
 
 def yesno(question, default):
     """Ask a question awaiting a yes or no answer with a default choice"""
@@ -139,7 +149,7 @@ def is_user_to_add_to_group(user, grp):
     grplist = os.popen(f"groups {user}").read()
 
     if grp in grplist:
-        print(f"{warning} '{user}' already in '{grp}'")
+        print(f"{done} '{user}' already in '{grp}'")
     else:
         adduser = yesno(f"Add '{user}' to '{grp}'", "y")
         if not re.match('^(n|no)', adduser):

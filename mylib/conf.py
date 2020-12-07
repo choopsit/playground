@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
 
 import os
+import re
 import shutil
 import urllib.request
 import mylib
 
 __description__ = "Configuration management module"
 __author__ = "Choops <choopsbd@gmail.com>"
+
+c0 = "\33[0m"
+ce = "\33[31m"
+cok = "\33[32m"
+cw = "\33[33m"
+ci = "\33[36m"
+
+error = f"{ce}E{c0}:"
+done = f"{cok}OK{c0}:"
+warning = f"{cw}W{c0}:"
 
 
 def fix_hostname(hostname, domain):
@@ -63,9 +74,9 @@ def bash(home):
             shutil.move(bashfilesrc, bashfiletgt)
 
     if home == "/root":
-        bashrcsrc = f"{srcfolder}/home/config/bash/bashrc_root"
+        bashrcsrc = f"{srcfolder}/home/config/bash/root_bashrc"
     else:
-        bashrcsrc = f"{srcfolder}/home/config/bash/bashrc_user"
+        bashrcsrc = f"{srcfolder}/home/config/bash/user_bashrc"
     bashrctgt = f"{bashcfg}/bashrc"
     mylib.file.overwrite(bashrcsrc, bashrctgt)
 
@@ -92,7 +103,7 @@ def vim(home):
     plugurl = f"{rawgiturl}junegunn/vim-plug/master/plug.vim"
     urllib.request.urlretrieve(plugurl, f"{plugfolder}/plug.vim")
 
-    if user == "root":
+    if home == "/root":
         os.system("vim +PlugInstall +qall")
 
 

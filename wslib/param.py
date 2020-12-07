@@ -1,5 +1,6 @@
 #!/usr/bin/nv python3
 
+import re
 import socket
 import pathlib
 import mylib
@@ -7,9 +8,21 @@ import mylib
 __description__ = "Workstation settings management module"
 __author__ = "Choops <choopsbd@gmail.com>"
 
+c0 = "\33[0m"
+ce = "\33[31m"
+cok = "\33[32m"
+cw = "\33[33m"
+ci = "\33[36m"
+
+error = f"{ce}E{c0}:"
+done = f"{cok}OK{c0}:"
+warning = f"{cw}W{c0}:"
+
 
 def choose_additions():
     """Choose specific applications to install"""
+
+    inst = {}
 
     if socket.gethostname() == "mrchat":
         inst["nfssrv"] = "yes"
@@ -22,7 +35,7 @@ def choose_additions():
     else:
         inst["nfssrv"] = mylib.com.yesno("Install NFS server", "n")
         inst["docker"] = mylib.com.yesno("Install docker", "n")
-        if not mylib.com.test_vm():
+        if not mylib.com.is_vm():
             inst["vbox"] = mylib.com.yesno("Install VirtualBox", "n")
         else:
             inst["vbox"] = "no"
@@ -35,9 +48,9 @@ def choose_additions():
 
 
 def choose_de():
-     """Choose specific desktop environment or window manager to install"""
+    """Choose specific desktop environment or window manager to install"""
 
-   okde = ["xfce", "awesomewm"]
+    okde = ["xfce", "awesomewm"]
 
     print(f"{ci}Available Desktop Environments or Window Managers{c0}:")
     for i in range(len(okde)):

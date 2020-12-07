@@ -59,12 +59,12 @@ if __name__ == "__main__":
 
     myhostname, mydomain = mylib.com.set_hostname()
 
-    myde = wslib.set.choose_de()
+    myde = wslib.param.choose_de()
 
     myusers = mylib.com.list_users()
-    mydeusers = wslib.set.deusers_add(myde, myusers)
+    mydeusers = wslib.param.deusers_add(myde, myusers)
 
-    additions = wslib.set.choose_additions()
+    additions = wslib.param.choose_additions()
 
     newgroups = ["sudo"]
     moreinst = []
@@ -92,6 +92,7 @@ if __name__ == "__main__":
         tsmduser = ""
         for (home, user, grp) in mydeusers:
             oktsm = mylib.com.yesno(f"Make '{user}' transmision-daemon user",
+                                    "n")
             if re.match('^(y|yes)$', oktsm):
                 tsmduser = user
                 break
@@ -121,20 +122,20 @@ if __name__ == "__main__":
                      "supertuxkart"]
 
     newingroups = {}
-    for users in myusers:
+    for user in myusers:
         for grp in newgroups:
-            newingroup[grp] = []
-            if mylib.com.is_users_to_add_to_group(user, grp):
-                newingroup[grp].append(user)
+            newingroups[grp] = []
+            if mylib.com.is_user_to_add_to_group(user, grp):
+                newingroups[grp].append(user)
 
-    print(f"{ci}Workstation settings{c0}:")
+    print(f"\n{ci}Workstation settings{c0}:")
     print(f"  - {ci}Hostname{c0}:            {myhostname}")
     if mydomain != "":
         print(f"  - {ci}Domain{c0}:              {mydomain}")
     print(f"  - {ci}Desktop Environment{c0}: {myde}")
-    if newsudousers != []:
+    if  newingroups["sudo"]!= []:
         print(f"  - {ci}Give 'sudo' privileges to{c0}:")
-        for user in newingroup["sudo"]:
+        for user in newingroups["sudo"]:
             print(f"    - {user}")
     if moreinst != []:
         print(f"  - {ci}Additional installations{c0}:")
@@ -152,9 +153,13 @@ if __name__ == "__main__":
         for cmd in moreprecmds:
             os.system(cmd)
     if morepkgs != []:
+        if "steam" in morepkgs:
+            os.system("dpkg --add-architecture i386")
+            os.system("apt update")
+
         mylib.pkg.install(morepkgs)
 
-    for grp, users in newingroups.items:
+    for grp, users in newingroups.items():
         mylib.com.add_user_to_group(user, grp)
 
     mylib.conf.swap()
@@ -175,9 +180,9 @@ if __name__ == "__main__":
 
     mylib.conf.root()
 
+    wslib.conf.user(myde, "/etc/skel", "root", "root")
     for deuser in mydeusers:
         wslib.conf.user(myde, *deuser)
-    wslib.conf.user(myde, "/etc/skel", "root", "root")
 
     wslib.inst.themes(scriptfolder)
 
