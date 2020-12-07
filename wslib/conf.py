@@ -60,7 +60,7 @@ def awesomewm(home):
                 tgt.write("something configured\n")
             else:
                 tgt.write(line)
-    
+
     confcontent = ["terminator"]
     deploy_dotconfig(home, confcontent, srcfolder)
 
