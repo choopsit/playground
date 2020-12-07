@@ -74,7 +74,7 @@ def xfce(home):
         os.makedirs(f"{home}/.config")
 
     confcontent = ["autostart", "conky", "dconf", "gedit", "plank",
-                   "terminator", "Thunar", "xfce4"]
+                   "terminator", "Thunar", "tumbler", "xfce4"]
     deploy_dotconfig(home, confcontent, srcfolder)
 
     deploy_dotlocal(home, srcfolder)
