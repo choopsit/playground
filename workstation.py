@@ -10,17 +10,6 @@ import wslib
 __description__ = "Install configured Desktop Environment on Debian"
 __author__ = "Choops <choopsbd@gmail.com>"
 
-
-def usage(errcode):
-    myscript = os.path.basename(__file__)
-    print(f"{ci}{__description__}\nUsage{c0}:")
-    print(f"  './{myscript} [OPTION]' as root or using 'sudo'")
-    print(f"{ci}Options{c0}:")
-    print(f"  -h,--help: Print this help")
-    print()
-    exit(errcode)
-
-
 c0 = "\33[0m"
 ce = "\33[31m"
 cok = "\33[32m"
@@ -31,7 +20,16 @@ error = f"{ce}E{c0}:"
 done = f"{cok}OK{c0}:"
 warning = f"{cw}W{c0}:"
 
-scriptfolder = os.path.dirname(os.path.realpath(__file__))
+
+def usage(errcode):
+    myscript = os.path.basename(__file__)
+    print(f"{ci}{__description__}\nUsage{c0}:")
+    print(f"  './{myscript} [OPTION]' as root or using 'sudo'")
+    print(f"{ci}Options{c0}:")
+    print(f"  -h,--help: Print this help")
+    print()
+    exit(errcode)
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -49,6 +47,8 @@ if __name__ == "__main__":
     if os.getuid() != 0:
         print(f"{error} Need higher privileges")
         exit(1)
+
+    scriptfolder = os.path.dirname(os.path.realpath(__file__))
 
     mycodename = mylib.com.get_codename()
 
