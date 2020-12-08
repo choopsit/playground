@@ -45,7 +45,7 @@ def xfce(basepkgs):
                "network-manager-gnome", "gparted"]
     appspkgs = ["terminator", "redshift-gtk", "gnome-system-monitor",
                 "file-roller", "gnome-calculator", "simple-scan", "remmina",
-                "blender", "gimp", "gthumb", "gedit", "gedit-plugins"]
+                "blender", "gimp", "gthumb", "pluma"]
     stylepkgs = ["arc-theme", "papirus-icon-theme", "libreoffice-gtk3",
                  "libreoffice-style-sifr"]
 
