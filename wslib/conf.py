@@ -53,15 +53,7 @@ def awesomewm(home):
     if not os.path.isdir(cfgfolder):
         os.makedirs(cfgfolder)
 
-    with open(awesomesrc, "r") as src, open(awesomeconf, "w") as tgt:
-        for line in src:
-            # TODO: define default awesomewm configuration
-            if line.startswith("something"):
-                tgt.write("something configured\n")
-            else:
-                tgt.write(line)
-
-    confcontent = ["terminator"]
+    confcontent = ["awesome", "terminator"]
     deploy_dotconfig(home, confcontent, srcfolder)
 
 

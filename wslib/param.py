@@ -80,7 +80,7 @@ def deusers_add(de, userlist):
         home = f"/home/{user}"
         grp = pathlib.Path(home).group()
 
-        wmcfg = mylib.com.yesno(f"Deploy '{de}' config for '{user}'", "n")
+        wmcfg = mylib.com.yesno(f"Deploy '{de}' config for '{user}'", "y")
         if not re.match('^(n|no)$', wmcfg.lower()):
             deusers.append((home, user, grp))
 
