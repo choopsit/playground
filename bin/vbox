@@ -109,7 +109,7 @@ if __name__ == "__main__":
     home = pathlib.Path.home()
 
     if os.popen("which VBoxManage").read() == "":
-        print(f"{error} VirtualBox not installed")
+        print(f"{error} VirtualBox not installed\n")
         exit(1)
 
     if len(sys.argv) > 3:
