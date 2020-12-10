@@ -585,7 +585,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 beautiful.useless_gap = 5
 
 -- Autostart
--- awful.spawn.with_shell("xrandr -s 1920x1080")
+-- awful.spawn.with_shell("xrandr -s 1440x900 && nitrogen --restore")
 awful.spawn.with_shell("nitrogen --restore")
--- awful.spawn.with_shell("picom &")
-awful.spawn.with_shell("compton -b")
+awful.spawn.with_shell("picom &")

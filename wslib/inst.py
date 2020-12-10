@@ -20,7 +20,7 @@ warning = f"{cw}W{c0}:"
 def awesome(basepkgs):
     """Append packagelists for AwesomeWM"""
 
-    awesomepkgs = ["xorg", "mesa-utils", "awesome", "awesome-extra", "rofi",
+    awesomepkgs = ["xorg", "mesa-utils", "awesome", "awesome-extra", "psmisc",
                    "lightdm", "slick-greeter", "nitrogen"]
     appspkgs = ["terminator", "gimp", "imagemagick", "mpv"]
     stylepkgs = ["arc-theme", "papirus-icon-theme"]

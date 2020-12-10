@@ -46,15 +46,21 @@ def awesomewm(home):
 
     srcfolder = os.path.dirname(os.path.realpath(__file__))
 
-    awesomesrc = "/etc/xdg/awesome/rc.lua"
-    cfgfolder = f"{home}/.config/awesome"
-    awesomeconf = f"{cfgfolder}/rc.lua"
-
     if not os.path.isdir(cfgfolder):
         os.makedirs(cfgfolder)
 
     confcontent = ["awesome", "terminator"]
     deploy_dotconfig(home, confcontent, srcfolder)
+
+    if codename != "sid":
+        cfgfolder = f"{home}/.config/awesome"
+        awesomeconf = f"{cfgfolder}/rc.lua"
+        tmpfile = "/tmp/rc.lua"
+
+        overwrite(awesomecfg, tmpfile)
+        with open(tmpfile, "r") as oldf, open(awesomeconf, "w"):
+            for line in oldf:
+                newf.write(line.replace("picom &", "compton -b"))
 
 
 def xfce(home):
