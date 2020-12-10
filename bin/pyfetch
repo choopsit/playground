@@ -147,7 +147,10 @@ def get_de():
     try:
         de = os.environ['XDG_CURRENT_DESKTOP']
     except KeyError:
-        de = "N/A"
+        try:
+            de = os.environ['DESKTOP_SESSION']
+        except KeyError:
+            de = "N/A"
 
     wmchk_cmd = ['update-alternatives', '--list', 'x-window-manager']
     try:
@@ -163,7 +166,7 @@ def get_perso(de):
     iconth = ""
     gtkth = ""
     home = str(pathlib.Path.home())
-    if de == "XFCE" or de == "N/A":
+    if de == "XFCE":
         conf = f"{home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
         with open(conf) as f:
             for line in f:
@@ -171,6 +174,9 @@ def get_perso(de):
                     gtkth = line.split('="')[-1].split('"')[0]
                 if "IconThemeName" in line:
                     iconth = line.split('="')[-1].split('"')[0]
+    # elif de == "awesome":
+    # TODO: pick WM for awesome
+    # elif de 
 
     return f"{ci}Icons{c0}:  {iconth}\t\t{ci}GTK-theme{c0}: {gtkth}"
 
