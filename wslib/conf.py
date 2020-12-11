@@ -46,13 +46,13 @@ def awesomewm(home):
 
     srcfolder = os.path.dirname(os.path.realpath(__file__))
 
-    if not os.path.isdir(cfgfolder):
-        os.makedirs(cfgfolder)
+    if not os.path.isdir(f"{home}/.config"):
+        os.makedirs(f"{home}/.config")
 
     confcontent = ["awesome", "terminator"]
     deploy_dotconfig(home, confcontent, srcfolder)
 
-    if codename != "sid":
+    if mylib.com.get_codename() != "sid":
         cfgfolder = f"{home}/.config/awesome"
         awesomeconf = f"{cfgfolder}/rc.lua"
         tmpfile = "/tmp/rc.lua"
@@ -81,9 +81,20 @@ def xfce(home):
 def user(de, home, user, grp):
     """Deploy user configuration based on Desktop Environment"""
 
+    srcfolder = os.path.dirname(os.path.realpath(__file__))
+
     mylib.conf.bash(home)
     mylib.conf.vim(home)
 
+    bg = "wsbg.jpg"
+    bgtgt = "/usr/local/share/backgrounds"
+    if not os.path.isdir(bgtgt):
+        os.makedirs(bgtgt)
+
+    tgt = f"{bgtgt}/{bg}"
+    src = f"{srcfolder}{bgtgt}/{bg}"
+    mylib.file.overwrite(src, tgt)
+    
     if de == "xfce":
         xfce(home)
     elif de == "awesomewm":
