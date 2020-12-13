@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-from . import com
 from . import file
 from . import pkg
 from . import conf
