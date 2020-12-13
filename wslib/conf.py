@@ -28,7 +28,7 @@ def deploy_dotconfig(home, confcontent, srcfolder):
                 mylib.file.overwrite(src, tgt)
             else:
                 print(f"{warning} '{tgt}' already exists")
-                resetconf = mylib.com.yesno("Overwrite it", "y")
+                resetconf = mylib.yesno("Overwrite it", "y")
                 if not re.match('^(n|no)', resetconf.lower()):
                     mylib.file.overwrite(src, tgt)
         else:
@@ -52,7 +52,7 @@ def awesomewm(home):
     confcontent = ["awesome", "terminator"]
     deploy_dotconfig(home, confcontent, srcfolder)
 
-    if mylib.com.get_codename() != "sid":
+    if mylib.get_codename() != "sid":
         cfgfolder = f"{home}/.config/awesome"
         awesomeconf = f"{cfgfolder}/rc.lua"
         tmpfile = "/tmp/rc.lua"
@@ -94,7 +94,7 @@ def user(de, home, user, grp):
     tgt = f"{bgtgt}/{bg}"
     src = f"{srcfolder}{bgtgt}/{bg}"
     mylib.file.overwrite(src, tgt)
-    
+
     if de == "xfce":
         xfce(home)
     elif de == "awesomewm":

@@ -39,32 +39,19 @@ if __name__ == "__main__":
             print(f"{error} Bad argument")
             usage(1)
 
-    distro = mylib.com.get_distro()
-    if distro != "debian":
-        print(f"{error} OS is not Debian")
-        exit(1)
+    mydistro = mylib.get_distro()
+    mycodename = mylib.get_codename()
 
-    if os.getuid() != 0:
-        print(f"{error} Need higher privileges")
-        exit(1)
+    mylib.prereq(mydistro, mycodename)
 
-    scriptfolder = os.path.dirname(os.path.realpath(__file__))
+    myhostname, mydomain = mylib.set_hostname()
 
-    mycodename = mylib.com.get_codename()
+    myde = wslib.choose_de()
 
-    olddebian = ["stretch", "jessie", "wheezy", "squeeze", "lenny"]
-    if mycodename in olddebian:
-        print(f"{error} '{codename}' is a too old Debian version")
-        exit(1)
+    myusers = mylib.list_users()
+    mydeusers = wslib.deusers_add(myde, myusers)
 
-    myhostname, mydomain = mylib.com.set_hostname()
-
-    myde = wslib.param.choose_de()
-
-    myusers = mylib.com.list_users()
-    mydeusers = wslib.param.deusers_add(myde, myusers)
-
-    additions = wslib.param.choose_additions()
+    additions = wslib.choose_additions()
 
     newgroups = ["sudo"]
     moreinst = []
@@ -91,7 +78,7 @@ if __name__ == "__main__":
         morepkgs += ["transmission-daemon"]
         tsmduser = ""
         for (home, user, grp) in mydeusers:
-            oktsm = mylib.com.yesno(f"Make '{user}' transmision-daemon user",
+            oktsm = mylib.yesno(f"Make '{user}' transmision-daemon user",
                                     "n")
             if re.match('^(y|yes)$', oktsm):
                 tsmduser = user
@@ -125,7 +112,7 @@ if __name__ == "__main__":
     for user in myusers:
         for grp in newgroups:
             newingroups[grp] = []
-            if mylib.com.is_user_to_add_to_group(user, grp):
+            if mylib.is_user_to_add_to_group(user, grp):
                 newingroups[grp].append(user)
 
     print(f"\n{ci}Workstation settings{c0}:")
@@ -141,12 +128,12 @@ if __name__ == "__main__":
         print(f"  - {ci}Additional installations{c0}:")
         for inst in moreinst:
             print(f"    - {inst}")
-    confconf = mylib.com.yesno("Confirm configuration", "y")
+    confconf = mylib.yesno("Confirm configuration", "y")
     if re.match('^(n|no)$', confconf):
         exit(0)
 
     mylib.conf.fix_hostname(myhostname, mydomain)
-    mylib.pkg.update_sourceslist(distro)
+    mylib.pkg.update_sourceslist(mydistro)
     wslib.inst.de(myde, mycodename, myhostname)
 
     if moreprecmds != []:
@@ -160,7 +147,7 @@ if __name__ == "__main__":
         mylib.pkg.install(morepkgs)
 
     for grp, users in newingroups.items():
-        mylib.com.add_user_to_group(user, grp)
+        mylib.add_user_to_group(user, grp)
 
     mylib.conf.swap()
     mylib.conf.ssh()
@@ -176,6 +163,10 @@ if __name__ == "__main__":
     if mylib.pkg.is_installed("transmission-daemon"):
         wslib.conf.transmissiond(tsmduser)
 
+    # TODO: Modify mylib.conf.deploy_scripts() and wslib.inst.themes() to make
+    #       them work without need of 'scriptfolder'
+    scriptfolder = os.path.dirname(os.path.realpath(__file__))
+
     mylib.conf.deploy_scripts(scriptfolder)
 
     mylib.conf.root()
@@ -189,4 +180,4 @@ if __name__ == "__main__":
     wslib.conf.specials(myhostname)
 
     print(f"{done} '{myde}' installed")
-    mylib.com.reboot()
+    mylib.reboot()
