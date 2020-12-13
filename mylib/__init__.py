@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import os
+import re
+import socket
 from . import file
 from . import pkg
 from . import conf
