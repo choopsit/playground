@@ -13,7 +13,7 @@
 [profiles]
   [[default]]
     background_color = "#282828"
-    background_darkness = 0.80
+    background_darkness = 0.85
     background_type = transparent
     cursor_color = "#aaaaaa"
     foreground_color = "#ebdbb2"
@@ -31,7 +31,7 @@
       position = 972:32
       maximised = False
       fullscreen = False
-      size = 942, 1040
+      size = 942, 1032
       last_active_term = 2abddf77-72d3-4f82-8e42-959abb663aa3
       last_active_window = True
     [[[terminal1]]]
