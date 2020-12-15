@@ -71,7 +71,7 @@ def xfce(home):
     if not os.path.isdir(f"{home}/.config"):
         os.makedirs(f"{home}/.config")
 
-    confcontent = ["autostart", "conky", "dconf", "plank", "pluma",
+    confcontent = ["autostart", "conky", "dconf", "gtk-3.0", "plank", "pluma",
                    "terminator", "Thunar", "tumbler", "xfce4"]
     deploy_dotconfig(home, confcontent, srcfolder)
 
