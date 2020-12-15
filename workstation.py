@@ -163,11 +163,7 @@ if __name__ == "__main__":
     if mylib.pkg.is_installed("transmission-daemon"):
         wslib.conf.transmissiond(tsmduser)
 
-    # TODO: Modify mylib.conf.deploy_scripts() and wslib.inst.themes() to make
-    #       them work without need of 'scriptfolder'
-    scriptfolder = os.path.dirname(os.path.realpath(__file__))
-
-    mylib.conf.deploy_scripts(scriptfolder)
+    mylib.conf.deploy_scripts()
 
     mylib.conf.root()
 
@@ -175,7 +171,7 @@ if __name__ == "__main__":
     for deuser in mydeusers:
         wslib.conf.user(myde, *deuser)
 
-    wslib.inst.themes(scriptfolder)
+    wslib.inst.themes()
 
     wslib.conf.specials(myhostname)
 

@@ -107,8 +107,10 @@ def de(de, codename, hostname):
     mylib.pkg.clean()
 
 
-def themes(srcfolder):
+def themes():
     """Install managed htemes from git by 'bin/themesupdate'"""
 
-    install_themes = f"{srcfolder}/bin/themesupdate"
+    origfolder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+    install_themes = f"{origfolder}/bin/themesupdate"
     os.system(install_themes)

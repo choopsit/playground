@@ -41,10 +41,12 @@ def fix_hostname(hostname, domain):
     os.system(f"hostname {hostname}")
 
 
-def deploy_scripts(srcfolder):
+def deploy_scripts():
     """Deploy scripts to '/usr/local/bin'"""
 
-    src = f"{srcfolder}/bin"
+    origfolder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+    src = f"{origfolder}/bin"
     tgt = "/usr/local/bin"
     for script in os.listdir(src):
         if not os.path.exists(f"{tgt}/{script}"):
