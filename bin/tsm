@@ -94,14 +94,14 @@ def test_torrentfile(myfile):
     if os.path.isfile(myfile) and myfile.endswith(".torrent"):
         return True
     else:
-        print(f"{error} '{myfile}' is not a valid torrent file")
+        print(f'{error} "{myfile}" is not a valid torrent file')
         exit(1)
 
 
 def add_one(torrent):
     tname = os.path.basename(torrent.rsplit('.', 1)[0])
     print(f"{ci}Adding '{tname}'...{c0}")
-    os.system(f"transmission-remote -a '{torrent}'")
+    os.system(f'transmission-remote -a "{torrent}"')
     print(f"{done} '{torrent}' added to queue")
     os.remove(torrent)
 
@@ -119,7 +119,7 @@ def add_all():
         for newtorrent in tlist:
             add_one(newtorrent)
     else:
-        print(f"{error} No torrent file in '~/Downloads'")
+        print(f'{error} No torrent file in "~/Downloads"')
         exit(1)
 
 
@@ -137,21 +137,21 @@ def test_torrentid(myid):
 def remove_one(tid):
     tname = ""
 
-    getid_cmd = f"transmission-remote -t {tid} -i"
+    getid_cmd = f'transmission-remote -t {tid} -i'
     tinfo = os.popen(getid_cmd).read()
     for line in tinfo.split("\n"):
         if "Name:" in line:
             tname = " ".join(line.split()[1:])
 
     if tname != "":
-        print(f"{ci}Removing '{tname}'...{c0}")
+        print(f'{ci}Removing "{tname}"...{c0}')
         if os.system(f"transmission-remote -t {tid} -rad") == 0:
-            print(f"{done} '{tid}: {tname}' removed from queue")
+            print(f'{done} "{tid}: {tname}" removed from queue')
             restartd = input("Restart daemon to reorder IDs [y/N] ? ")
             if re.match('^(y|yes)$', restartd.lower()):
                 restart_daemon()
         else:
-            print(f"{error} Failed to remove '{tid}: {tname}'")
+            print(f'{error} Failed to remove "{tid}: {tname}"')
     else:
         print(f"{error} No torrent with ID {tid}")
 
