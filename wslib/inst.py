@@ -39,19 +39,19 @@ def xfce(basepkgs):
                 "xfce4-power-manager", "xfce4-pulseaudio-plugin",
                 "xfce4-weather-plugin", "xfce4-whiskermenu-plugin",
                 "xfce4-xkb-plugin", "xfce4-screenshooter",
-                "catfish", "plank", "evince"]
+                "catfish", "plank"]
     syspkgs = ["cups", "printer-driver-escpr", "system-config-printer",
                "network-manager-gnome", "gparted"]
     appspkgs = ["terminator", "redshift-gtk", "gnome-system-monitor",
-                "file-roller", "gnome-calculator", "simple-scan", "remmina",
-                "blender", "gimp", "gthumb", "pluma"]
+                "pluma", "galculator", "gthumb", "simple-scan", "remmina",
+                "blender", "gimp"]
     stylepkgs = ["arc-theme", "papirus-icon-theme", "libreoffice-gtk3",
                  "libreoffice-style-sifr"]
 
     pkgs = basepkgs + xfcepkgs + syspkgs + appspkgs + stylepkgs
 
     uselesspkgs = ["needrestart", "xfce4-taskmanager", "xfce4-terminal",
-                   "xarchiver", "xfburn", "xsane", "atril", "exfalso",
+                   "xfburn", "xsane", "exfalso",
                    "quodlibet", "hv3", "parole", "ristretto", "mousepad",
                    "xterm", "libreoffice-base"]
 
