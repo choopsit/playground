@@ -98,13 +98,13 @@ def obsidian_icons(gitfolder):
     print(f"{done} Obsidian icons updated")
 
 
-def korla_icons(gitfolder):
-    thurl = "https://github.com/bikass/korla.git"
-    thfolder = f"{gitfolder}/korla-icons"
+def kora_icons(gitfolder):
+    thurl = "https://github.com/bikass/kora.git"
+    thfolder = f"{gitfolder}/kora-icons"
     git_update(thurl, thfolder)
 
-    mytarget = f"/usr/share/icons/korla"
-    mysource = f"{thfolder}/korla"
+    mytarget = f"/usr/share/icons/kora"
+    mysource = f"{thfolder}/kora"
 
     if os.path.isdir(mytarget):
         shutil.rmtree(mytarget)
@@ -113,7 +113,7 @@ def korla_icons(gitfolder):
     updcache_cmd = ["gtk-update-icon-cache", mytarget]
     subprocess.check_call(updcache_cmd, stderr=subprocess.DEVNULL)
 
-    print(f"{done} Korla icons updated")
+    print(f"{done} Kora icons updated")
 
 
 c0 = "\33[0m"
@@ -141,5 +141,5 @@ if __name__ == "__main__":
     mojave_gtk(tmpfolder)
     mcmojave_cursors(tmpfolder)
     obsidian_icons(tmpfolder)
-    korla_icons(tmpfolder)
+    kora_icons(tmpfolder)
     print()
