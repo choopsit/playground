@@ -124,7 +124,7 @@ def get_packages(dist):
         pkgcount = subprocess.check_output(count_cmd, stdin=pkglist.stdout,
                                            universal_newlines=True).rstrip("\n")
 
-    return f"{ci}Packages{c0}: {pkgcount}"
+    return f"{ci}Packages{c0}:  {pkgcount}"
 
 
 def get_uptime():
