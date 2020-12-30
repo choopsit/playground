@@ -83,9 +83,13 @@ def draw_fs(mountpoint):
         tline = f"-{ci}{mountpoint[2]}{c0}:\n"
         tline += f"  {ci}type{c0}: {ctxt}{mountpoint[1]}\t"
         tline += f"{ci}mounted on{c0}: {ctxt}{mountpoint[0]}{c0}"
+
+        repart = f"{ctxt}{usedu:.1f}{c0}/{ctxt}{totalu:.1f}{unit}{c0}"
+        lensep = 30 - len(repart)
+        sep = " " * lensep
         gline = f"  [{cfs}{usedgr}{cn}{freegr}{c0}]{sepg}{cfs}{usedprop}{c0}%"
-        gline += f"  {ctxt}{usedu:.1f}{c0}/{ctxt}{totalu:.1f}{unit}{c0}"
-        gline += f"\t[{ctxt}{freeu:.1f}{unit} free{c0}]"
+        gline += f" {sep}{repart}"
+        gline += f" [{ctxt}{freeu:.1f}{unit} free{c0}]"
 
         print(f"{tline}\n{gline}")
 
