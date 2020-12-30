@@ -178,7 +178,13 @@ def get_perso(de):
     # TODO: pick WM for awesome
     # elif de 
 
-    return f"{ci}Icons{c0}:  {iconth}\t\t{ci}GTK-theme{c0}: {gtkth}"
+    sep = "\t\t"
+    if len(iconth) < 5:
+        sep += "\t"
+    elif len(iconth) > 12:
+        sep = "\t"
+
+    return f"{ci}Icons{c0}:  {iconth}{sep}{ci}GTK-theme{c0}: {gtkth}"
 
 
 def get_cpu():
