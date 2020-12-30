@@ -159,7 +159,13 @@ def get_de():
     except subprocess.CalledProcessError:
         wm = "N/A"
 
-    return f"{ci}DE{c0}:     {de}\t\t\t{ci}WM{c0}:\t   {wm}", de
+    sep = "\t\t"
+    if len(de) < 5:
+        sep += "\t"
+    elif len(de) > 12:
+        sep = "\t"
+
+    return f"{ci}DE{c0}:     {de}{sep}{ci}WM{c0}:\t   {wm}", de
 
 
 def get_perso(de):
