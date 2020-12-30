@@ -3,12 +3,12 @@
 description="Start stuff with a delay"
 author="Choops <choopsbd@gmail.com>"
 
-if [[ -f "${HOME}/.config/conky/clock" ]]; then
+if (which conky) && [[ -f "${HOME}/.config/conky/clock" ]]; then
     sleep 5
     conky -c "${HOME}/.config/conky/clock" &
 fi
 
-if [[ -f "${HOME}/.config/picom/picom.conf" ]]; then
+if (which picom) && [[ -f "${HOME}/.config/picom/picom.conf" ]]; then
     sleep 5
     picom --config "${HOME}/.config/picom/picom.conf" &
 fi
