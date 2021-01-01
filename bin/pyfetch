@@ -143,6 +143,16 @@ def get_shell():
     return f"{ci}Shell{c0}:  {shell} {shellv}"
 
 
+def get_term():
+    term = "N/A"
+    testenv = os.popen("which x-terminal-emulator").read()
+    if testenv != "":
+        getterm = "x-terminal-emulator --version"
+        term = os.popen(getterm).read().rstrip()
+
+    return f"{ci}Terminal{c0}:  {term}"
+
+
 def get_de():
     try:
         de = os.environ['XDG_CURRENT_DESKTOP']
@@ -238,7 +248,7 @@ def pick_infos(logo, dist):
     infolist.append(get_os())
     infolist.append(f"{get_kernel()}\t{get_packages(dist)}")
     infolist.append(get_uptime())
-    infolist.append(get_shell())
+    infolist.append(f"{get_shell()}\t\t{get_term()}")
     deinfo, de = get_de()
     infolist.append(deinfo)
     infolist.append(get_perso(de))
