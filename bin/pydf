@@ -89,7 +89,7 @@ def draw_fs(mountpoint):
         sep = " " * lensep
         gline = f"  [{cfs}{usedgr}{cn}{freegr}{c0}]{sepg}{cfs}{usedprop}{c0}%"
         gline += f" {sep}{repart}"
-        gline += f" [{ctxt}{freeu:.1f}{unit} free{c0}]"
+        gline += f" - {ctxt}{freeu:.1f}{unit} free{c0}"
 
         print(f"{tline}\n{gline}")
 
