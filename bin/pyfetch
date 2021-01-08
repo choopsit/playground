@@ -44,7 +44,7 @@ def default_logo():
 
 def distro_logo(dist):
     dlogo = []
-    if dist == "debian":
+    if dist == "debian" or dist == "raspbian":
         cl = ["\33[31m"]
         dlogo.append(f"{cl[0]}     ,get$$gg.    ")
         dlogo.append(f"{cl[0]}   ,g$\"     \"$P.  ")
@@ -111,13 +111,18 @@ def get_os():
 def get_kernel():
     kernel = platform.release()
 
-    return f"{ci}Kernel{c0}: {kernel}"
+    sep = ""
+    if len(kernel) < 16:
+        sep = "\t"
+
+    return f"{ci}Kernel{c0}: {kernel}{sep}"
 
 
 def get_packages(dist):
-    pkgcount = None
+    pkgcount = "N/A"
 
-    if dist == "debian" or dist == "ubuntu":
+    distok = ["debian", "raspbian", "ubuntu"]
+    if dist in distok:
         list_cmd = ['dpkg', '-l']
         count_cmd = ['grep', '-c', '^i']
         pkglist = subprocess.Popen(list_cmd, stdout=subprocess.PIPE)
@@ -148,7 +153,14 @@ def get_term():
     testenv = os.popen("which x-terminal-emulator").read()
     if testenv != "":
         getterm = "x-terminal-emulator --version"
-        term = os.popen(getterm).read().rstrip()
+        try:
+            os.environ['DISPLAY']
+        except KeyError:
+            for line in os.popen(getterm):
+                if "terminator" in line:
+                    term = "terminator"
+        else:
+            term = os.popen(getterm).read().rstrip()
 
     return f"{ci}Terminal{c0}:  {term}"
 
@@ -253,7 +265,8 @@ def pick_infos(logo, dist):
     infolist.append(deinfo)
     infolist.append(get_perso(de))
     infolist.append(get_cpu())
-    infolist.append(get_gpu())
+    if dist != 'raspbian':
+        infolist.append(get_gpu())
     infolist.append(get_mem())
 
     while len(infolist) < len(logo):
