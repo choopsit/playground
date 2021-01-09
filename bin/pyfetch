@@ -251,7 +251,7 @@ def get_mem():
 
     mrepart = f"{memused}/{memtotal}"
     msep = "\t"
-    if len(mrepart) < 12:
+    if len(mrepart) < 10:
         msep += "\t"
     ret = f"{ci}RAM{c0}:    {memused}/{memtotal}MB {msep}"
     ret += f"{ci}Swap{c0}:      {swapused}/{swaptotal}MB"
