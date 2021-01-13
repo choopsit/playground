@@ -110,6 +110,7 @@ def backup(destfolder):
                 "/etc/pulse/daemon.conf", "/etc/apt/sources.list",
                 "/usr/share/lightdm/lightdm.conf.d/01_my.conf",
                 "/usr/share/X11/xorg.conf.d/10-nvidia.conf"]
+    morebackups = []
     if socket.gethostname() == "mrchat":
         morebackups = ["/volumes/speedix/Music"]
 
