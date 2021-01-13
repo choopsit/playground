@@ -70,8 +70,8 @@ def user_conf_backup():
         print(f"{ci}Backup{c0}:")
 
         folder = "/backup"
-        if socket.gethostname() == "mrchat":
-            folder = "/volumes/backup"
+        #if socket.gethostname() == "mrchat":
+        #    folder = "/volumes/backup"
 
         if os.system(f"mount | grep -q {folder}") != 0:
             dobackup = False
