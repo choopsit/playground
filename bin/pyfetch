@@ -44,7 +44,7 @@ def default_logo():
 
 def distro_logo(dist):
     dlogo = []
-    if dist == "debian" or dist == "raspbian":
+    if dist == "debian":
         cl = ["\33[31m"]
         dlogo.append(f"{cl[0]}     ,get$$gg.    ")
         dlogo.append(f"{cl[0]}   ,g$\"     \"$P.  ")
@@ -55,6 +55,26 @@ def distro_logo(dist):
         dlogo.append(f"{cl[0]}    \"$b.          ")
         dlogo.append(f"{cl[0]}      \"$b.        ")
         dlogo.append(f"{cl[0]}         \"\"\"      ")
+    elif dist == "raspbian":
+        cl = ["\33[32m", "\33[31m"]
+        # dlogo.append(f"{cl[0]} ..     ..o$$$$$$°")
+        # dlogo.append(f"{cl[0]} $$o. .o$$$$$$$$° ")
+        # dlogo.append(f"{cl[0]} $${cl[1]}.####.{cl[0]}$$$$°'   ")
+        # dlogo.append(f"{cl[1]} . ###### .###.   ")
+        # dlogo.append(f"{cl[1]} # '####' #####   ")
+        # dlogo.append(f"{cl[1]} '   ::   '###' #.")
+        # dlogo.append(f"{cl[1]}   .####.   :  ###")
+        # dlogo.append(f"{cl[1]} . ###### .###. #'")
+        # dlogo.append(f"{cl[1]} # '####' #####   ")
+        dlogo.append(f"{cl[0]} .       .o@$$$$$°")
+        dlogo.append(f"{cl[0]} $$o. .o$$$$$$$*'  ")
+        dlogo.append(f"{cl[0]} $${cl[1]}.o@@o.{cl[0]}$$**'    ")
+        dlogo.append(f"{cl[1]} . $$$$$$ .o@o.   ")
+        dlogo.append(f"{cl[1]} $ '*$$*' $$$$$ o ")
+        dlogo.append(f"{cl[1]} ' .o@@o. '*$*'.$$")
+        dlogo.append(f"{cl[1]} . $$$$$$ .o@o.'$$")
+        dlogo.append(f"{cl[1]} $ '*$$*' $$$$$ * ")
+        dlogo.append(f"{cl[1]} ' .o@@o. '*$*'   ")
     else:
         dlogo = default_logo()
 
