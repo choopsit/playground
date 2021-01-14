@@ -140,6 +140,6 @@ if __name__ == "__main__":
     prerequisites()
     mojave_gtk(tmpfolder)
     mcmojave_cursors(tmpfolder)
-    obsidian_icons(tmpfolder)
-    kora_icons(tmpfolder)
+    #obsidian_icons(tmpfolder)
+    #kora_icons(tmpfolder)
     print()
