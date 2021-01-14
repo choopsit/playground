@@ -194,9 +194,9 @@ def get_perso(de, wm):
     gtkth = ""
     iconth = ""
     home = str(pathlib.Path.home())
-    if de == "XFCE":
+    if de == "XFCE" or wm == "xfwm4":
         conf = f"{home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
-        with open(confi, "r") as f:
+        with open(conf, "r") as f:
             for line in f:
                 if "\"ThemeName" in line:
                     gtkth = line.split('="')[-1].split('"')[0]
