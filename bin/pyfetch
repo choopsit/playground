@@ -187,24 +187,30 @@ def get_de():
     elif len(de) > 12:
         sep = "\t"
 
-    return f"{ci}DE{c0}:     {de}{sep}{ci}WM{c0}:\t   {wm}", de
+    return f"{ci}DE{c0}:     {de}{sep}{ci}WM{c0}:\t   {wm}", de, wm
 
 
-def get_perso(de):
-    iconth = ""
+def get_perso(de, wm):
     gtkth = ""
+    iconth = ""
     home = str(pathlib.Path.home())
     if de == "XFCE":
         conf = f"{home}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
-        with open(conf) as f:
+        with open(confi, "r") as f:
             for line in f:
                 if "\"ThemeName" in line:
                     gtkth = line.split('="')[-1].split('"')[0]
                 if "IconThemeName" in line:
                     iconth = line.split('="')[-1].split('"')[0]
-    # elif de == "awesome":
-    # TODO: pick WM for awesome
-    # elif de == ...
+    elif wm == "awesome":
+        conf = f"{home}/.gtkrc-2.0"
+        if os.path.isfile(conf):
+            with open(conf, "r") as f:
+                for line in f:
+                    if line.startswith("gtk-theme-name"):
+                        gtkth = line.split('="')[-1].split('"')[0]
+                    if line.startswith("gtk-icon-theme-name"):
+                        iconth = line.split('="')[-1].split('"')[0]
 
     sep = "\t\t"
     if len(iconth) < 5:
@@ -265,9 +271,9 @@ def pick_infos(logo, dist):
     infolist.append(f"{get_kernel()}\t{get_packages(dist)}")
     infolist.append(get_uptime())
     infolist.append(f"{get_shell()}\t\t{get_term()}")
-    deinfo, de = get_de()
+    deinfo, de, wm = get_de()
     infolist.append(deinfo)
-    infolist.append(get_perso(de))
+    infolist.append(get_perso(de, wm))
     infolist.append(get_cpu())
     if dist != 'raspbian':
         infolist.append(get_gpu())
