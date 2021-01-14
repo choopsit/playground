@@ -152,7 +152,7 @@ def get_term():
     term = "N/A"
     testenv = os.popen("which x-terminal-emulator").read()
     if testenv != "":
-        getterm = "x-terminal-emulator --version"
+        getterm = "x-terminal-emulator --version 2>/dev/null"
         try:
             os.environ['DISPLAY']
         except KeyError:
