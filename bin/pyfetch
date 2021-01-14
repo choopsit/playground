@@ -57,15 +57,6 @@ def distro_logo(dist):
         dlogo.append(f"{cl[0]}         \"\"\"      ")
     elif dist == "raspbian":
         cl = ["\33[32m", "\33[31m"]
-        # dlogo.append(f"{cl[0]} ..     ..o$$$$$$°")
-        # dlogo.append(f"{cl[0]} $$o. .o$$$$$$$$° ")
-        # dlogo.append(f"{cl[0]} $${cl[1]}.####.{cl[0]}$$$$°'   ")
-        # dlogo.append(f"{cl[1]} . ###### .###.   ")
-        # dlogo.append(f"{cl[1]} # '####' #####   ")
-        # dlogo.append(f"{cl[1]} '   ::   '###' #.")
-        # dlogo.append(f"{cl[1]}   .####.   :  ###")
-        # dlogo.append(f"{cl[1]} . ###### .###. #'")
-        # dlogo.append(f"{cl[1]} # '####' #####   ")
         dlogo.append(f"{cl[0]} .       .o@$$$$$°")
         dlogo.append(f"{cl[0]} $$o. .o$$$$$$$*'  ")
         dlogo.append(f"{cl[0]} $${cl[1]}.o@@o.{cl[0]}$$**'    ")
