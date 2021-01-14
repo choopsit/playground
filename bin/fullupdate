@@ -42,7 +42,7 @@ def system_upgrade(rmobs):
         for pkg in obspkgs.split("\n"):
             obspkgsl += pkg.split(":")[0]
         if obspkgsl != "":
-            os.system(f"sudo apt purge -y {obspkgl} 2>/dev/null")
+            os.system(f"sudo apt purge -y {obspkgsl} 2>/dev/null")
 
     cleancmds = ["sudo apt autoremove --purge 2>/dev/null",
                  "sudo apt autoclean 2>/dev/null",
