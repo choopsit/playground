@@ -21,11 +21,11 @@ def awesome(basepkgs):
     """Append packagelists for AwesomeWM"""
 
     awesomepkgs = ["xorg", "mesa-utils", "awesome", "awesome-extra", "psmisc",
-                   "lightdm", "slick-greeter", "nitrogen"]
-    appspkgs = ["terminator", "gimp", "imagemagick", "mpv"]
+                   "lightdm", "slick-greeter", "compton", "terminator"]
+    appspkgs = ["gimp", "imagemagick", "mpv", "lollypop", "easytag"]
     stylepkgs = ["arc-theme", "papirus-icon-theme"]
 
-    pkgs = basepkgs + awesomepkgs + appspkgs
+    pkgs = basepkgs + awesomepkgs + appspkgs + stylepkgs
 
     return pkgs
 

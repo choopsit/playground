@@ -582,9 +582,8 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Gaps
-beautiful.useless_gap = 5
+beautiful.useless_gap = 3
 
 -- Autostart
--- awful.spawn.with_shell("xrandr -s 1440x900 && feh --bg-fill /usr/local/share/backgrounds/wsbg.jpg")
 awful.spawn.with_shell("feh --bg-fill /usr/local/share/backgrounds/wsbg.jpg")
-awful.spawn.with_shell("picom &")
+awful.spawn.with_shell("compton -b")
