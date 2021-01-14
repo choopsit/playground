@@ -61,7 +61,7 @@ warning = f"{cw}W{c0}:"
 if __name__ == "__main__":
     gitstock = pathlib.Path().absolute()
 
-    if socket.gethostname() == "mrchat":
+    if socket.gethostname() == "mrchat" or socket.gethostname() == "petitchat":
         home = pathlib.Path.home()
         gitstock = f"{home}/Work/git"
 
