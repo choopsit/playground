@@ -3,6 +3,7 @@
 import sys
 import os
 import re
+import mylib
 
 myrepo = "choopsit/playground"
 __description__ = f"Link scripts from '{myrepo}' repo to '/usr/local/bin'"
@@ -44,6 +45,10 @@ def create_links():
             print(f"{warning} '{mylink}' is a folder.", end=" ")
             print("It will not be overwritten")
             ignoredlist.append(script)
+
+        if not mylib.pkg.is_installed("virtualbox"):
+            if script == "vbox":
+                continue
 
         if not os.path.exists(mylink):
             os.chdir(target)
