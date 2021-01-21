@@ -57,8 +57,8 @@ def awesomewm(home):
         awesomeconf = f"{cfgfolder}/rc.lua"
         tmpfile = "/tmp/rc.lua"
 
-        overwrite(awesomecfg, tmpfile)
-        with open(tmpfile, "r") as oldf, open(awesomeconf, "w"):
+        mylib.file.overwrite(awesomeconf, tmpfile)
+        with open(tmpfile, "r") as oldf, open(awesomeconf, "w") as newf:
             for line in oldf:
                 newf.write(line.replace("picom &", "compton -b"))
 

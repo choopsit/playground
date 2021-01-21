@@ -22,7 +22,7 @@ def awesome(basepkgs):
 
     awesomepkgs = ["xorg", "mesa-utils", "awesome", "awesome-extra", "psmisc",
                    "lightdm", "slick-greeter", "compton", "terminator"]
-    appspkgs = ["gimp", "imagemagick", "mpv", "lollypop", "easytag"]
+    appspkgs = ["gimp", "imagemagick", "mpv"]
     stylepkgs = ["arc-theme", "papirus-icon-theme"]
 
     pkgs = basepkgs + awesomepkgs + appspkgs + stylepkgs
