@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+description="Set puseaudio-plugin volume control step"
+author="Choops <choopsbd@gmail.com>"
+
+set -e
+
+usage(){
+    echo -e "${ci}${description}\nUsage${c0}:"
+    echo -e "  $(basename "$0") [OPTION] <STEP>"
+    echo -e "  ${cw}with STEP the percentage to apply to volume control step between 1 and 20${c0}"
+    echo -e "${ci}Options${c0}:"
+    echo -e "  -h,--help: Print this help"
+    exit "$1"
+}
+
+c0="\e[0m"
+ce="\e[31m"
+cok="\e[32m"
+cw="\e[33m"
+ci="\e[36m"
+
+error="${ce}E${c0}:"
+done="${cok}OK${c0}:"
+
+[[ $# != 1 ]] && echo -e "${error} Need one and only one argument" && usage 1
+[[ $1 =~ ^-(h|-help)$ ]] && usage 0
+
+if [[ $1 -lt 1 ]] || [[ $1 -gt 20 ]]; then
+    echo -e "${error} Bad argument" && usage 1
+fi
+
+[[ $DESKTOP_SESSION != xfce ]] && echo -e "${error} DE is not XFCE" && exit 1
+
+pulseplug="$(xfconf-query -c xfce4-panel -lv | awk '/pulseaudio/ {print $1}')"
+
+xfconf-query -c xfce4-panel -p "${pulseplug}"/volume-step --create -t int -s "$1"
+
+echo -e "${done} Volume control step set to $1%"
