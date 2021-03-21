@@ -45,11 +45,11 @@ def sid_sourceslist(codename, stable):
 
     if codename == "sid":
         print(f"{warning} Already sid")
-        renewsl = mylib.com.yesno(f"Renew '{sourceslist}'", "n")
+        renewsl = mylib.yesno(f"Renew '{sourceslist}'", "n")
         if not re.match('^(y|yes)$', renewsl.lower()):
             newsl = False
     else:
-        herewego = mylib.com.yesno(f"Upgrade {codename} to sid", "y")
+        herewego = mylib.yesno(f"Upgrade {codename} to sid", "y")
         if re.match('^(n|no)$', herewego.lower()):
             exit(0)
 
@@ -65,7 +65,7 @@ def switch_firefox():
                       "apt purge firefox-esr 2>/dev/null",
                       "apt autoremove --purge -yy 2>/dev/null"]
 
-    swfirefox = mylib.com.yesno("\nSwitch firefox-esr to firefox", "y")
+    swfirefox = mylib.yesno("\nSwitch firefox-esr to firefox", "y")
     if not re.match('^(n|no)', swfirefox.lower()):
         for cmd in swfirefox_cmds:
             if os.system(cmd) != 0:
@@ -98,7 +98,7 @@ if __name__ == "__main__":
             usage()
             exit(1)
 
-    distro = mylib.com.get_distro()
+    distro = mylib.get_distro()
     if distro != "debian":
         print(f"{error} OS is not Debian")
         exit(1)
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     stable = "buster"
     olddebian = ["stretch", "jessie", "wheezy", "squeeze", "lenny"]
 
-    codename = mylib.com.get_codename()
+    codename = mylib.get_codename()
     if codename in olddebian:
         print(f"{error} '{codename}' is a too old Debian version")
         exit(1)
@@ -127,4 +127,4 @@ if __name__ == "__main__":
         print(f"{done} Renewed '/etc/sources.list'")
     else:
         print(f"{done} Upgraded from {codename} to sid")
-    mylib.com.reboot()
+    mylib.reboot()
