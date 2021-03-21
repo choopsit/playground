@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
     if re.match('^(y|yes)$', additions["mediatools"]):
         moreinst += ["Multimedia utilities"]
-        morepkgs += ["easytag", "audacity", "kazam", "pitivi"]
+        morepkgs += ["easytag", "audacity"]
 
     if re.match('^(y|yes)$', additions["kodi"]):
         moreinst += ["Kodi MediaCenter"]
@@ -104,9 +104,8 @@ if __name__ == "__main__":
         morepkgs += ["steam"]
 
     if myhostname == "mrchat":
-        moreinst += ["Conky", "Dia", "Games"]
-        morepkgs += ["conky-all", "dia", "gnome-2048", "quadrapassel",
-                     "supertuxkart"]
+        moreinst += ["Conky", "Games"]
+        morepkgs += ["conky-all", "gnome-2048", "quadrapassel", "supertuxkart"]
 
     newingroups = {}
     for user in myusers:
