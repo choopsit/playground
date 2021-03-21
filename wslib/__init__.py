@@ -25,8 +25,9 @@ def choose_additions():
     """Choose specific applications to install"""
 
     inst = {}
+    hostname = socket.gethostname()
 
-    if socket.gethostname() == "mrchat":
+    if re.match('^(mrchat|moignon)$', hostname):
         inst["nfssrv"] = "yes"
         inst["docker"] = "no"
         inst["vbox"] = "yes"

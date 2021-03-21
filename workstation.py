@@ -103,7 +103,7 @@ if __name__ == "__main__":
         moreprecmds += [steamagree, steamlicnote]
         morepkgs += ["steam"]
 
-    if myhostname == "mrchat":
+    if re.match('^(mrchat|moignon)$', myhostname):
         moreinst += ["Conky", "Games"]
         morepkgs += ["conky-all", "gnome-2048", "quadrapassel", "supertuxkart"]
 
