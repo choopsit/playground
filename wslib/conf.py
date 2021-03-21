@@ -31,7 +31,7 @@ def deploy_dotconfig(home, confcontent, srcfolder):
                 resetconf = mylib.yesno("Overwrite it", "y")
                 if not re.match('^(n|no)', resetconf.lower()):
                     mylib.file.overwrite(src, tgt)
-        else:
+        elif os.path.exists(src):
             shutil.copytree(src, tgt, symlinks=True)
 
 
@@ -212,22 +212,22 @@ def specials(hostname):
     """Apply special configuration for special hosts"""
 
     if hostname == "mrchat":
-        disks = {"grodix": "d498cab6-0d80-4b11-9c78-c422cc8ef983",
-                 "speedix": "40b3c512-b22e-4842-b9e1-aa3262c4d1d8",
-                 "backup": "67893919-07f9-48bf-83a2-48936aa1057c"}
+        disks = {
+                "grodix": "d498cab6-0d80-4b11-9c78-c422cc8ef983",
+                "speedix": "40b3c512-b22e-4842-b9e1-aa3262c4d1d8",
+                "backup": "67893919-07f9-48bf-83a2-48936aa1057c"
+                }
 
         for label, partuuid in disks.items():
-            mntpoint = f"/volumes/{label}"
+            mntpnt = f"/volumes/{label}"
 
-            if not os.path.isdir(mntpoint):
-                os.makedirs(mntpoint)
-                shutil.chown(mntpoint, "choops", "choops")
+            if not os.path.isdir(mntpnt):
+                os.makedirs(mntpnt)
+                shutil.chown(mntpnt, "choops", "choops")
 
-            mntline = f"\n#{label}\nUUID={partuuid}\t{mntpoint}\tbtrfs\t"
+            mntline = f"\n#{label}\nUUID={partuuid}\t{mntpnt}\tbtrfs\t"
             mntline += "defaults\t0\t0\n"
-            with open("/etc/fstab", "a") as f:
-                if label not in f.read():
-                    f.write(mntline)
+            mylib.add_to_fstab(label, mntline)
 
         nfsshare = "/volumes/grodix"
         subnet = "192.168.42.0/24"
@@ -237,5 +237,23 @@ def specials(hostname):
             if label not in f.read():
                 f.write(nfsline)
         os.system("systemctl restart nfs-kernel-server")
+
+    elif hostname == "moignon":
+        host = "mrchat"
+        nfsmounts = {
+                "backup": "/backup",
+                "grodix": "/volumes/grodix",
+                "speedix": "/volumes/speedix"
+                }
+
+        for label, mntpnt in nfsmounts.items():
+            if not os.path.isdir(mntpnt):
+                os.makedirs(mntpnt)
+                shutil.chown(mntpnt, "choops", "choops")
+
+            mntline = f"\n#{label} on {host}\n{host}:{mntpnt}\t{mntpnt}\tnfs\t"
+            mntline += "defaults\t0\t0\n"
+            mylib.add_to_fstab(label, mntline)
+
     else:
         pass

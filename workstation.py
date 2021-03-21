@@ -71,7 +71,7 @@ if __name__ == "__main__":
         newgroups.append("vboxusers")
         moreinst += ["VirtualBox"]
         morepkgs += ["virtualbox", "virtualbox-ext-pack",
-                     "Virtualbox-guest-additions-iso"]
+                     "virtualbox-guest-additions-iso"]
 
     if re.match('^(y|yes)$', additions["tsmd"]):
         moreinst += ["Transmission-daemon"]
@@ -138,6 +138,7 @@ if __name__ == "__main__":
     if moreprecmds != []:
         for cmd in moreprecmds:
             os.system(cmd)
+
     if morepkgs != []:
         if "steam" in morepkgs:
             os.system("dpkg --add-architecture i386")

@@ -34,11 +34,11 @@ def yesno(question, default):
     answer = input(f"{question} {defindic} ? ")
     if answer == "":
         answer = default
-    elif not re.match('^(y|yes|n|no)$', answer):
+    elif not re.match('^(y|yes|n|no)$', answer.lower()):
         print(f"{error} Invalid answer '{answer}'")
         answer = yesno(question, default)
 
-    return answer
+    return answer.lower()
 
 
 def reboot():
@@ -180,6 +180,12 @@ def add_user_to_group(user, grp):
     """Add '{user}' to group '{grp}'"""
 
     os.system(f"adduser {user} {grp}")
+
+
+def add_to_fstab(label, mntline):
+    with open("/etc/fstab", "a+") as f:
+        if label not in f.read():
+            f.write(mntline)
 
 
 def is_vm():
