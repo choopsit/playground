@@ -86,7 +86,7 @@ def draw_logo(default):
     with open("/etc/os-release", "r") as osfile:
         for line in osfile:
             if line.startswith("ID="):
-                dist = line.split("=")[1].rstrip("\n")
+                dist = line.split("=")[1].rstrip("\n").lower()
 
     if dist and default is False:
         logo = distro_logo(dist)
@@ -107,9 +107,6 @@ def get_host():
 
 
 def get_os():
-    dist = ""
-    version = ""
-
     with open("/etc/os-release", "r") as osfile:
         for line in osfile:
             if line.startswith("PRETTY"):
