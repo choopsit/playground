@@ -78,22 +78,33 @@ def mcmojave_cursors(gitfolder):
     print(f"{done} McMojave cursors updated")
 
 
+def bigsur_icons(gitfolder):
+    thurl = "https://github.com/yeyushengfan258/BigSur-icon-theme.git"
+    thfolder = f"{gitfolder}/bigsur-icons"
+    git_update(thurl, thfolder)
+
+    os.chdir(thfolder)
+    thinst_cmd = ["./install.sh"]
+    subprocess.check_output(thinst_cmd)
+
+    print(f"{done} BigSur icons updated")
+
+
 def obsidian_icons(gitfolder):
     thurl = "https://github.com/madmaxms/iconpack-obsidian.git"
     thfolder = f"{gitfolder}/obsidian-icons"
     git_update(thurl, thfolder)
 
-    iconthlist = ["Obsidian", "Obsidian-Gray"]
-    for iconth in iconthlist:
-        mytarget = f"/usr/share/icons/{iconth}"
-        mysource = f"{thfolder}/{iconth}"
+    iconth = "Obsidian"
+    mytarget = f"/usr/share/icons/{iconth}"
+    mysource = f"{thfolder}/{iconth}"
 
-        if os.path.isdir(mytarget):
-            shutil.rmtree(mytarget)
-        shutil.copytree(mysource, mytarget, symlinks=True)
+    if os.path.isdir(mytarget):
+        shutil.rmtree(mytarget)
+    shutil.copytree(mysource, mytarget, symlinks=True)
 
-        updcache_cmd = ["gtk-update-icon-cache", mytarget]
-        subprocess.check_call(updcache_cmd, stderr=subprocess.DEVNULL)
+    updcache_cmd = ["gtk-update-icon-cache", mytarget]
+    subprocess.check_call(updcache_cmd, stderr=subprocess.DEVNULL)
 
     print(f"{done} Obsidian icons updated")
 
@@ -140,6 +151,7 @@ if __name__ == "__main__":
     prerequisites()
     mojave_gtk(tmpfolder)
     mcmojave_cursors(tmpfolder)
-    #obsidian_icons(tmpfolder)
+    #bigsur_icons(tmpfolder)
+    obsidian_icons(tmpfolder)
     kora_icons(tmpfolder)
     print()
