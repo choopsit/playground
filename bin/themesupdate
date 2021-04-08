@@ -66,6 +66,15 @@ def mojave_gtk(gitfolder):
     print(f"{done} Mojave-Gtk theme updated")
 
 
+def catalina_gtk():
+    thname = "Os-Catalina-Gtk-night"
+    thurl = f"https://github.com/zayronxio/{thname}.git"
+    thtarget = f"/usr/share/themes/{thname}"
+    git_update(thurl, thtarget)
+
+    print(f"{done} {thname} theme updated")
+
+
 def mcmojave_cursors(gitfolder):
     thurl = "https://github.com/vinceliuice/McMojave-cursors.git"
     thfolder = f"{gitfolder}/mcmojave-cursors"
@@ -76,18 +85,6 @@ def mcmojave_cursors(gitfolder):
     subprocess.check_output(thinst_cmd)
 
     print(f"{done} McMojave cursors updated")
-
-
-def bigsur_icons(gitfolder):
-    thurl = "https://github.com/yeyushengfan258/BigSur-icon-theme.git"
-    thfolder = f"{gitfolder}/bigsur-icons"
-    git_update(thurl, thfolder)
-
-    os.chdir(thfolder)
-    thinst_cmd = ["./install.sh"]
-    subprocess.check_output(thinst_cmd)
-
-    print(f"{done} BigSur icons updated")
 
 
 def obsidian_icons(gitfolder):
@@ -149,9 +146,9 @@ if __name__ == "__main__":
             exit(1)
 
     prerequisites()
-    mojave_gtk(tmpfolder)
+    #mojave_gtk(tmpfolder)
     mcmojave_cursors(tmpfolder)
-    #bigsur_icons(tmpfolder)
+    catalina_gtk()
     obsidian_icons(tmpfolder)
     kora_icons(tmpfolder)
     print()
