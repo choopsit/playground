@@ -2,8 +2,8 @@
 
 <channel name="xsettings" version="1.0">
   <property name="Net" type="empty">
-    <property name="ThemeName" type="string" value="Mojave-dark"/>
-    <property name="IconThemeName" type="string" value="Papirus-Dark"/>
+    <property name="ThemeName" type="string" value="Os-Catalina-Gtk-night"/>
+    <property name="IconThemeName" type="string" value="Obsidian"/>
     <property name="DoubleClickTime" type="empty"/>
     <property name="DoubleClickDistance" type="empty"/>
     <property name="DndDragThreshold" type="empty"/>
@@ -35,6 +35,8 @@
     <property name="CursorThemeName" type="string" value="McMojave-cursors"/>
     <property name="CursorThemeSize" type="int" value="36"/>
     <property name="DecorationLayout" type="string" value="close,minimize,maximize:menu"/>
+    <property name="DialogsUseHeader" type="empty"/>
+    <property name="TitlebarMiddleClick" type="empty"/>
   </property>
   <property name="Gdk" type="empty">
     <property name="WindowScalingFactor" type="empty"/>
