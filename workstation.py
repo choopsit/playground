@@ -78,8 +78,7 @@ if __name__ == "__main__":
         morepkgs += ["transmission-daemon"]
         tsmduser = ""
         for (home, user, grp) in mydeusers:
-            oktsm = mylib.yesno(f"Make '{user}' transmision-daemon user",
-                                    "n")
+            oktsm = mylib.yesno(f"Make '{user}' transmision-daemon user", "n")
             if re.match('^(y|yes)$', oktsm):
                 tsmduser = user
                 break
@@ -104,8 +103,8 @@ if __name__ == "__main__":
         morepkgs += ["steam"]
 
     if re.match('^(mrchat|moignon)$', myhostname):
-        moreinst += ["Conky", "Games"]
-        morepkgs += ["conky-all", "gnome-2048", "quadrapassel", "supertuxkart"]
+        moreinst += ["Games"]
+        morepkgs += ["gnome-2048", "quadrapassel", "supertuxkart"]
 
     newingroups = {}
     for user in myusers:

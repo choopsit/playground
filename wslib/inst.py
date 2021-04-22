@@ -42,9 +42,9 @@ def xfce(basepkgs):
                 "catfish", "plank"]
     syspkgs = ["cups", "printer-driver-escpr", "system-config-printer",
                "network-manager-gnome", "gparted"]
-    appspkgs = ["terminator", "redshift-gtk", "gnome-system-monitor",
-                "gedit", "gedit-plugins", "galculator", "gthumb", "simple-scan", "remmina",
-                "blender", "gimp"]
+    appspkgs = ["terminator", "redshift-gtk", "gnome-system-monitor", "gedit",
+                "gedit-plugins", "galculator", "gthumb", "simple-scan",
+                "remmina", "blender", "gimp"]
     stylepkgs = ["arc-theme", "papirus-icon-theme", "libreoffice-gtk3",
                  "libreoffice-style-sifr"]
 
