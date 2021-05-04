@@ -104,7 +104,7 @@ def backup(destfolder):
                    ".local/share/gtksourceview-4", ".local/share/lollypop",
                    ".local/share/plank", ".local/share/remmina",
                    ".local/share/rhythmbox", ".local/share/xfce4", "Documents",
-                   "Downloads", "Music", "Pictures", "Videos", "Work", "Games"]
+                   "Music", "Pictures", "Videos", "Work", "Games"]
     cfgfiles = ["/etc/fstab", "/etc/exports", "/etc/hosts",
                 "/etc/ssh/sshd_config", "/etc/sysctl.d/99-swappiness.conf",
                 "/etc/pulse/daemon.conf", "/etc/apt/sources.list",
