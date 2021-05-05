@@ -44,7 +44,7 @@ def xfce(basepkgs):
                "network-manager-gnome", "gparted"]
     appspkgs = ["terminator", "redshift-gtk", "gnome-system-monitor", "gedit",
                 "gedit-plugins", "file-roller", "galculator", "gthumb",
-                "simple-scan", "remmina", "blender", "gimp"]
+                "evince", "simple-scan", "remmina", "blender", "gimp"]
     stylepkgs = ["arc-theme", "papirus-icon-theme", "libreoffice-gtk3",
                  "libreoffice-style-sifr"]
 
@@ -52,7 +52,8 @@ def xfce(basepkgs):
 
     uselesspkgs = ["xfce4-taskmanager", "xfce4-terminal", "xfburn", "xsane",
                    "exfalso", "quodlibet", "hv3", "parole", "ristretto",
-                   "mousepad", "xterm", "xarchiver", "libreoffice-base"]
+                   "mousepad", "xterm", "xarchiver", "libreoffice-base",
+                   "atril"]
 
     return pkgs, uselesspkgs
 
