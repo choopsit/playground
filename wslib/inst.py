@@ -43,7 +43,7 @@ def xfce(basepkgs):
     syspkgs = ["cups", "printer-driver-escpr", "system-config-printer",
                "network-manager-gnome", "gparted"]
     appspkgs = ["terminator", "redshift-gtk", "gnome-system-monitor", "gedit",
-                "gedit-plugins", "file-roller", "galculator", "gthumb",
+                "gedit-plugins", "file-roller", "gnome-calculator", "gthumb",
                 "evince", "simple-scan", "remmina", "blender", "gimp"]
     stylepkgs = ["arc-theme", "papirus-icon-theme", "libreoffice-gtk3",
                  "libreoffice-style-sifr"]
