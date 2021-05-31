@@ -149,6 +149,6 @@ if __name__ == "__main__":
     #mojave_gtk(tmpfolder)
     mcmojave_cursors(tmpfolder)
     catalina_gtk()
-    obsidian_icons(tmpfolder)
+    #obsidian_icons(tmpfolder)
     kora_icons(tmpfolder)
     print()
