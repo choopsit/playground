@@ -106,6 +106,23 @@ def obsidian_icons(gitfolder):
     print(f"{done} Obsidian icons updated")
 
 
+def fluent_icons(gitfolder):
+    thurl = "https://github.com/vinceliuice/Fluent-icon-theme.git"
+    thfolder = f"{gitfolder}/fluent-icons"
+    git_update(thurl, thfolder)
+
+    os.chdir(thfolder)
+    thinst_cmd = ["./install.sh"]
+    with open(os.devnull, 'wb') as devnull:
+        subprocess.check_call(thinst_cmd, stdout=devnull,
+                              stderr=subprocess.STDOUT)
+    #subprocess.check_output(thinst_cmd)
+    #thinst_cmd = "./install.sh"
+    #os.system(thinst_cmd)
+
+    print(f"{done} Fluent icons updated")
+
+
 def kora_icons(gitfolder):
     thurl = "https://github.com/bikass/kora.git"
     thfolder = f"{gitfolder}/kora-icons"
@@ -150,5 +167,6 @@ if __name__ == "__main__":
     mcmojave_cursors(tmpfolder)
     catalina_gtk()
     #obsidian_icons(tmpfolder)
+    fluent_icons(tmpfolder)
     kora_icons(tmpfolder)
     print()
