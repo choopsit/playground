@@ -98,11 +98,13 @@ def system_informations(home):
     print(datetime.datetime.today().strftime("%a %b %d, %H:%M:%S"))
     binpath = "/usr/local/bin"
     userbin = f"{home}/.local/bin"
-    scripts = {"pyfetch": "", "vbox": "list", "pydf": ""}
+    scripts = {"pyfetch": "", "tsm": "-t", "vbox": "list", "pydf": ""}
+
     for script, opt in scripts.items():
         if os.path.exists(f"{binpath}/{script}"):
             cmd = f"{script} {opt}"
             os.system(cmd.rstrip())
+
     if os.path.exists("/usr/local/bin/statmygits"):
         show_git_status(repopath)
 

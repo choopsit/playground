@@ -204,10 +204,12 @@ def test_port():
                 port = line.split()[1].strip(',')
 
     if port != "":
+        print(f"{ci}Transmission-daemon status{c0}:")
         print(f"{ci}Testing port '{port}'...{c0}")
         os.system("transmission-remote -pt")
+        print()
     else:
-        print(f"{error} Can not find port in transmission-daemon config")
+        print(f"{error} Can not find port in transmission-daemon config\n")
         exit(1)
 
 
