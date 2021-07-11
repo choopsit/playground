@@ -63,9 +63,12 @@ map <F4> :set list!<CR>
 " Spell check
 map <F6> :setlocal spell! spelllang=en_us<CR>
 " Reload config
-map <C-s> :source ~/.vim/vimrc<CR>
+map <C-m> :source ~/.vim/vimrc<CR>
 " Toggle search highlight
 map <C-c> :set invhls<CR>
+" Split
+map <C-h> :sp<CR>
+map <C-s> :vsp<CR>
 
 " ----- Plugs settings -----
 silent! colorscheme gruvbox
